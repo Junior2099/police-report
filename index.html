@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Ocorrências Policiais</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Formulário de Ocorrências Policiais</h1>
+            <p>Preencha os dados conforme o tipo de ocorrência</p>
+        </header>
+
+        <div class="form-container">
+            <!-- Seleção do tipo de ocorrência -->
+            <div class="form-section" id="tipo-ocorrencia">
+                <h2>Selecione o tipo de ocorrência:</h2>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="tipoOcorrencia" value="furto" required>
+                        <span class="radio-custom"></span>
+                        Furto de Objeto
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="tipoOcorrencia" value="roubo" required>
+                        <span class="radio-custom"></span>
+                        Roubo de Objeto
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="tipoOcorrencia" value="perda" required>
+                        <span class="radio-custom"></span>
+                        Perda de Objeto
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="tipoOcorrencia" value="batida" required>
+                        <span class="radio-custom"></span>
+                        Batida de Veículo
+                    </label>
+                </div>
+                <button type="button" id="proximoBtn" class="btn btn-primary">Próximo</button>
+            </div>
+
+            <!-- Formulário principal -->
+            <form id="ocorrenciaForm" style="display: none;">
+                <!-- Dados da ocorrência -->
+                <div class="form-section">
+                    <h2>Dados da Ocorrência</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="data">Data da Ocorrência:</label>
+                            <input type="date" id="data" name="data" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="horario">Horário:</label>
+                            <input type="time" id="horario" name="horario" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cepLocal">CEP do Local:</label>
+                            <input type="text" id="cepLocal" name="cepLocal" placeholder="00000-000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numeroLocal">Número do Local:</label>
+                            <input type="text" id="numeroLocal" name="numeroLocal" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados pessoais -->
+                <div class="form-section">
+                    <h2>Dados Pessoais</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nomeCompleto">Nome Completo:</label>
+                            <input type="text" id="nomeCompleto" name="nomeCompleto" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sexo">Sexo:</label>
+                            <select id="sexo" name="sexo" required>
+                                <option value="">Selecione</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nascimento">Data de Nascimento:</label>
+                            <input type="date" id="nascimento" name="nascimento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="naturalEstado">Natural de (Estado):</label>
+                            <input type="text" id="naturalEstado" name="naturalEstado" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nomeMae">Nome da Mãe:</label>
+                        <input type="text" id="nomeMae" name="nomeMae" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cpf">CPF:</label>
+                            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rgEstado">RG - Estado:</label>
+                            <input type="text" id="rgEstado" name="rgEstado" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rgNumero">RG - Número:</label>
+                            <input type="text" id="rgNumero" name="rgNumero" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profissao">Profissão:</label>
+                        <input type="text" id="profissao" name="profissao" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone Celular:</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cepRua">CEP da Rua:</label>
+                            <input type="text" id="cepRua" name="cepRua" placeholder="00000-000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numeroCasa">Número da Casa:</label>
+                            <input type="text" id="numeroCasa" name="numeroCasa" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados específicos por tipo de ocorrência -->
+                <div id="dadosEspecificos">
+                    <!-- Dados para Furto -->
+                    <div id="dadosFurto" class="form-section" style="display: none;">
+                        <h2>Dados do Objeto Furtado</h2>
+                        <div class="form-group">
+                            <label for="dadosObjeto">Descrição do Objeto:</label>
+                            <textarea id="dadosObjeto" name="dadosObjeto" rows="3" placeholder="Descreva o objeto furtado"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="ehCelular" name="ehCelular">
+                                É um celular?
+                            </label>
+                        </div>
+                        <div id="dadosCelular" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="marcaCelular">Marca do Celular:</label>
+                                    <input type="text" id="marcaCelular" name="marcaCelular">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numeroChip">Número do Chip:</label>
+                                    <input type="text" id="numeroChip" name="numeroChip">
+                                </div>
+                                <div class="form-group">
+                                    <label for="operadora">Operadora:</label>
+                                    <input type="text" id="operadora" name="operadora">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados para Roubo -->
+                    <div id="dadosRoubo" class="form-section" style="display: none;">
+                        <h2>Dados do Roubo</h2>
+                        <div class="form-group">
+                            <label for="aparenciaBandido">Aparência do Bandido:</label>
+                            <textarea id="aparenciaBandido" name="aparenciaBandido" rows="3" placeholder="Descreva a aparência do bandido"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantosBandidos">Quantos eram:</label>
+                            <input type="number" id="quantosBandidos" name="quantosBandidos" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="estavaVeiculo">Estava de veículo ou a pé:</label>
+                            <select id="estavaVeiculo" name="estavaVeiculo">
+                                <option value="">Selecione</option>
+                                <option value="veiculo">De veículo</option>
+                                <option value="pe">A pé</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dadosObjetoRoubo">Descrição do Objeto Roubado:</label>
+                            <textarea id="dadosObjetoRoubo" name="dadosObjetoRoubo" rows="3" placeholder="Descreva o objeto roubado"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="ehCelularRoubo" name="ehCelularRoubo">
+                                É um celular?
+                            </label>
+                        </div>
+                        <div id="dadosCelularRoubo" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="marcaCelularRoubo">Marca do Celular:</label>
+                                    <input type="text" id="marcaCelularRoubo" name="marcaCelularRoubo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numeroChipRoubo">Número do Chip:</label>
+                                    <input type="text" id="numeroChipRoubo" name="numeroChipRoubo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="operadoraRoubo">Operadora:</label>
+                                    <input type="text" id="operadoraRoubo" name="operadoraRoubo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados para Perda -->
+                    <div id="dadosPerda" class="form-section" style="display: none;">
+                        <h2>Dados do Objeto Perdido</h2>
+                        <div class="form-group">
+                            <label for="dadosObjetoPerda">Descrição do Objeto Perdido:</label>
+                            <textarea id="dadosObjetoPerda" name="dadosObjetoPerda" rows="3" placeholder="Descreva o objeto perdido"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="ehCelularPerda" name="ehCelularPerda">
+                                É um celular?
+                            </label>
+                        </div>
+                        <div id="dadosCelularPerda" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="marcaCelularPerda">Marca do Celular:</label>
+                                    <input type="text" id="marcaCelularPerda" name="marcaCelularPerda">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numeroChipPerda">Número do Chip:</label>
+                                    <input type="text" id="numeroChipPerda" name="numeroChipPerda">
+                                </div>
+                                <div class="form-group">
+                                    <label for="operadoraPerda">Operadora:</label>
+                                    <input type="text" id="operadoraPerda" name="operadoraPerda">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados para Batida -->
+                    <div id="dadosBatida" class="form-section" style="display: none;">
+                        <h2>Dados do Veículo</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="placaCarro">Placa do Carro:</label>
+                                <input type="text" id="placaCarro" name="placaCarro" placeholder="ABC-1234">
+                            </div>
+                            <div class="form-group">
+                                <label for="corCarro">Cor do Carro:</label>
+                                <input type="text" id="corCarro" name="corCarro">
+                            </div>
+                            <div class="form-group">
+                                <label for="anoCarro">Ano do Carro:</label>
+                                <input type="number" id="anoCarro" name="anoCarro" min="1900" max="2024">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="temSeguro">Tem Seguro:</label>
+                            <select id="temSeguro" name="temSeguro">
+                                <option value="">Selecione</option>
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+                        <h3>Dados do Outro Veículo Envolvido</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="placaOutroVeiculo">Placa do Outro Veículo:</label>
+                                <input type="text" id="placaOutroVeiculo" name="placaOutroVeiculo" placeholder="ABC-1234">
+                            </div>
+                            <div class="form-group">
+                                <label for="corOutroVeiculo">Cor do Outro Veículo:</label>
+                                <input type="text" id="corOutroVeiculo" name="corOutroVeiculo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nomeEnvolvido">Nome da Pessoa Envolvida:</label>
+                            <input type="text" id="nomeEnvolvido" name="nomeEnvolvido">
+                        </div>
+                        <div class="form-group">
+                            <label for="relatoBatida">Relato do Acidente:</label>
+                            <textarea id="relatoBatida" name="relatoBatida" rows="4" placeholder="Descreva como ocorreu o acidente"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões de ação -->
+                <div class="form-section">
+                    <div class="button-group">
+                        <button type="button" id="gerarPdfBtn" class="btn btn-success">Gerar PDF</button>
+                        <button type="button" id="salvarJsonBtn" class="btn btn-info">Salvar JSON</button>
+                        <button type="button" id="restaurarDadosBtn" class="btn btn-warning">Restaurar Dados</button>
+                        <button type="button" id="reiniciarFormBtn" class="btn btn-danger">Reiniciar Formulário</button>
+                        <input type="file" id="arquivoJson" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
